@@ -19,14 +19,14 @@ width: 100%;
  font-family: 'Poppins';
  color: #000000;
  font-weight: 500;
- font-size: 28px;
+ font-size: 24px;
  margin-bottom: 16px;
 }
 
 
 & > a{
   margin-left: 16px;
- margin-top: 25px;
+ margin-top: 24px;
 
 }
 
@@ -36,7 +36,14 @@ width: 100%;
  position: relative;
   
  & > p {
-   font-size: 20px;
+   font-size: 16px;
+
+   text-align:center;
  }
+ & > a{
+  margin-left: 16px;
+ margin-top: 20px;
+
+}
 }
 `;

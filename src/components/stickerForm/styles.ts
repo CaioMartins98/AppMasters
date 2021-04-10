@@ -5,13 +5,17 @@ export const Container = styled.div`
   align-items:center;
   justify-content:center;
   display:flex;
-  height: 75vh;
+  height: 65vh;
 `;
 
 export const ContainerForm = styled(Form)`
-  height: 70vh;
+  height: 45vh;
   overflow-y: scroll;
   
+  @media (max-width: 760px){
+    height: 35vh;
+
+}
 
 `;
 export const Label = styled.label`
@@ -65,8 +69,8 @@ export const Button = styled.button`
   & > button {
   background:#000321;
   border-radius: 8px;
-  width: 350px;
-  height: 100px;
+  width: 330px;
+  height: 90px;
   
   margin-top: 26px;
   font-family: 'Poppins';
@@ -84,10 +88,16 @@ export const Button = styled.button`
   }
 
   @media (max-width: 760px){
-    width: 350px;
-  height: 50px;
+    align-items:center;
+    justify-content:center;
+    display:flex;
+    
+    & > button{
+    width: 320px;
+  height: 35px;
   font-size: 24px;
-
+  margin-top: 46px;
+    }
 }
 `;
 
