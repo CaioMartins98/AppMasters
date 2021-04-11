@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container} from './styles';
 import GitHubIcon from '../../assets/github.svg';
-import AppMasterIcon from '../../assets/appmasters.png';
+import AppMaster from '../../assets/appmasters.png';
 
 const Footer = () =>{
   return (
@@ -18,7 +18,7 @@ const Footer = () =>{
     <a href="https://appmasters.io/pt/"
       target="blank"
       rel="noreferrer">
-        <img src={AppMasterIcon} alt="App Masters icon"/>
+        <img src={AppMaster} alt="App Masters icon"/>
       </a>
 </div>
     </Container>

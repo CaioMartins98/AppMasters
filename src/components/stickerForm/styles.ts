@@ -20,6 +20,7 @@ export const Label = styled.label`
   font-family: 'Poppins';
   color: #000000;
   font-size: 32px;
+  font-weight: 400;
   margin-top: 12px;
   & > label > button {
     margin-bottom: 8px;
