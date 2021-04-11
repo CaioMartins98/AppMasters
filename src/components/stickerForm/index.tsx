@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import MessageOk from '../MessageOk';
 import MessageError from '../MessageError';
 import Loading from '../Loading';
@@ -21,7 +21,7 @@ const StickerForm = () => {
 	const schema = Yup.object().shape({
 		name: Yup.string().min(2, 'Nome muito curto').required('* Nome obrigatório'),
 		email: Yup.string().email('Email inválido!').required('* Email obrigatório'),
-		phone: Yup.string().min(10).required('*Telefone obrigatório'),
+		phone: Yup.string().matches(/(^[0-9]+$)/, 'only digits here').min(10).required('*Telefone obrigatório'),
 		addressZip: Yup.string().required('*CEP obrigatório'),
 		addressNumber: Yup.number().min(1).required('*Número obrigatório'),
 		addressComplement: Yup.string().required('*Complemento obrigatório'),
@@ -65,8 +65,9 @@ const onBlurCep = (event, setFieldValue) => {
         setFieldValue('addressState', data.uf)}
         )
         .catch((error)=> console.log(error));
-
 }
+
+
 
 	return (
 		<Container>
@@ -116,15 +117,20 @@ const onBlurCep = (event, setFieldValue) => {
 
 					<Label htmlFor='phone'>Telefone</Label>
           <div>
-					<StyledInput id='phone' name='phone' ptype='phone' />
+					<StyledInput name='phone' 
+                       id='phone' 
+                       maxlength='11' 
+                       placeholder='(__)_____-____' 
+                       type='phone'/>
           <StyledErrorMessage component="span" name="phone" />
           </div>
 
 					<Label htmlFor='addressZip'>CEP</Label>
           <div>
 					<StyledInput id='addressZip' 
-								name='addressZip' 
-								
+								       name='addressZip' 
+								       maxlength='8' 
+                       placeholder='_____-___'
 								onBlur={(ev) => onBlurCep(ev, setFieldValue)}
 								/>
                 <StyledErrorMessage component="span" name="addressZip" />

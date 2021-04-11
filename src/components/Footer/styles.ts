@@ -34,10 +34,10 @@ width: 100%;
 
 
  position: relative;
- height:100px;
+ height:130px;
   
  & > p {
-   font-size: 16px;
+   font-size: 18px;
 
    text-align:center;
  }

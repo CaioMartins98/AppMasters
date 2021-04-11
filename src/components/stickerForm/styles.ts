@@ -32,14 +32,14 @@ export const Label = styled.label`
 `;
 export const StyledInput = styled(Field)`
   width: 300px;
-  height: 35px;
+  height: 36px;
   border:1px solid #000321;
   background-color: #fff;
   border-radius: 4px;
   margin-left: 12px;
   margin-top: 5px;
   font-family:'Poppins';
-  font-size:32px;
+  font-size:28px;
   color: black;
   
   align-items:center;
