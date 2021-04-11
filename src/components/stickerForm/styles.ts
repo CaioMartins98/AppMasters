@@ -18,7 +18,7 @@ export const ContainerForm = styled(Form)`
 `;
 export const Label = styled.label`
   font-family: 'Poppins';
-  color: #BDBDBD;
+  color: #000000;
   font-size: 32px;
   margin-top: 12px;
   & > label > button {
@@ -33,8 +33,8 @@ export const Label = styled.label`
 export const StyledInput = styled(Field)`
   width: 300px;
   height: 36px;
-  border:1px solid #000321;
-  background-color: #fff;
+  border:1px solid #000000;
+  background-color: #FFF;
   border-radius: 4px;
   margin-left: 12px;
   margin-top: 5px;
@@ -58,7 +58,7 @@ export const StyledButton = styled.button`
   justify-content:center;
   display:flex;
   border:none;
-  background:#000321;
+  background:#000000;
   border-radius: 8px;
   width: 330px;
   height: 70px;
@@ -72,9 +72,9 @@ export const StyledButton = styled.button`
   
  :hover {
     background:white;
-    color:#000321;
-    border: 2px solid #000321;
-    transition:0.8s
+    color:#000000;
+    border: 3px solid #000000;
+    transition:0.5s
   }
 
   :focus{

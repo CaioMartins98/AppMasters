@@ -73,6 +73,7 @@ const StickerForm = () => {
 
 	return (
 		<Container>
+			
 
 			{!loading && message === 'Success' && <MessageOk />}
 
@@ -104,13 +105,13 @@ const StickerForm = () => {
 
 						<ContainerForm>
 							{message === 'Error' && <MessageError />}
-							<Label htmlFor='name'>Nome</Label>
+							<Label htmlFor='name'>Nome Completo</Label>
 							<div>
-								<StyledInput id='name' placeholder='Nome completo' name='name' />
+								<StyledInput id='name' name='name' />
 								<StyledErrorMessage component="span" name="name" />
 							</div>
 
-							<Label htmlFor='email'>Email</Label>
+							<Label htmlFor='email'>E-mail</Label>
 
 							<div>
 								<StyledInput id='email' name='email' type='email' />

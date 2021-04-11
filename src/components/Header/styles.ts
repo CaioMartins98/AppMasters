@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background: #000321;
+  background: #000000;
   color: white;
   font-family: 'Lobster';
   font-size: 55px;
