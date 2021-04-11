@@ -104,7 +104,7 @@ const onBlurCep = (event, setFieldValue) => {
           {message === 'Error' && <MessageError/>}
 					<Label htmlFor='name'>Nome</Label>
           <div>
-					<StyledInput id='name' name='name'  />
+					<StyledInput id='name' placeholder='Digite seu nome completo' name='name'  />
           <StyledErrorMessage component="span" name="name" />
           </div>
 
