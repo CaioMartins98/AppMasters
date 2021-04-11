@@ -1,86 +1,62 @@
-import React, { useState } from 'react';
-import {Formik} from 'formik';
-
-import Loading from '../Loading';
+import axios from 'axios';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-
+import React, { useState } from 'react';
 import MessageOk from '../MessageOk';
 import MessageError from '../MessageError';
-
-
+import Loading from '../Loading';
 import {Container,
-        Button,
-        Input, 
+        StyledButton,
+        StyledInput, 
         Label, 
         StyledErrorMessage, 
-        ContainerForm} from './styles';
+        ContainerForm
+      } from'./styles'
 
-
-const schema = Yup.object().shape({
-  name: Yup.string().min(2, 'Nome muito curto').required('* Nome obrigatório'),
-  email: Yup.string().email('Email inválido!').required('* Email obrigatório'),
-  phone: Yup.string().min(10).required('*Telefone obrigatório'),
-  addressZip: Yup.string().required('*CEP obrigatório'),
-  addressNumber: Yup.number().min(1).required('*Número obrigatório'),
-  addressComplement: Yup.string().required('*Complemento obrigatório'),
-  addressStreet: Yup.string().required('*Logradouro obrigatório'),
-  addressDistrict: Yup.string().required('*Bairro obrigatório'),
-  addressCity: Yup.string().required('*Cidade obrigatório'),
-  addressState:Yup.string().required('*Estado obrigatório')
-})
-
-
+const API_URL = 'https://simple-api-selection.herokuapp.com/submit';
 
 
 const StickerForm = () => {
+	
+	const schema = Yup.object().shape({
+		name: Yup.string().min(2, 'Nome muito curto').required('* Nome obrigatório'),
+		email: Yup.string().email('Email inválido!').required('* Email obrigatório'),
+		phone: Yup.string().min(10).required('*Telefone obrigatório'),
+		addressZip: Yup.string().required('*CEP obrigatório'),
+		addressNumber: Yup.number().min(1).required('*Número obrigatório'),
+		addressComplement: Yup.string().required('*Complemento obrigatório'),
+		addressStreet: Yup.string().required('*Logradouro obrigatório'),
+		addressDistrict: Yup.string().required('*Bairro obrigatório'),
+		addressCity: Yup.string().required('*Cidade obrigatório'),
+		addressState:Yup.string().required('*Estado obrigatório')
+	})
+
 const [loading, setLoading] = useState(false);
 const [message, setMessage] = useState('');
 
-  
-function handleSubmit(data) {
-  console.log(data);
+	const sendForm = (values: any) => {
     setLoading(true);
-    
-      fetch('https://simple-api-selection.herokuapp.com/submit/',{
-      method:'POST', 
-      body: JSON.stringify({
-        name: data.name,
-        phone: data.phone,
-        email: data.email,
-        addressZip: data.addressZip,
-        addressStreet: data.addressStreet,
-        addressNumber: data.addressNumber,
-        addressComplement: data.addressComplement,
-        addressDistrict: data.addressDistrict,
-        addressCity: data.addressCity,
-        addressState: data.addressState
-
-
-      })}
-      )
-    .then((res)=> {
+		axios({
+			method: 'POST',
+			url: API_URL,
+			data: values
+		})
+		.then(()=> {
       setLoading(false);
-
-      if(res.status === 200){
-        setMessage('Success');
-      }
-      if(res.status === 400){
-        setMessage('Error');
-      }
-    }).catch(err => {
-      console.log(err);
-      setLoading(false);
+      setMessage('Success')
     })
+		.catch(() => {
+      setMessage('Error')
+			
+			setLoading(false);
+		})
+	}
 
-  }
+const onBlurCep = (event, setFieldValue) => {
+	const {value} = event.target;
+	const cep = value;
 
-  const onBlurCep = (event, setFieldValue) =>{
-
-    const { value } = event.target;
-    const cep = value;
-    
-
-  fetch(`https://viacep.com.br/ws/${cep}/json/`)
+	fetch(`https://viacep.com.br/ws/${cep}/json/`)
   .then((res) => res.json())
       .then((data) => {
         setFieldValue('addressStreet', data.logradouro);
@@ -90,134 +66,121 @@ function handleSubmit(data) {
         )
         .catch((error)=> console.log(error));
 
-      ;
-  }
- 
-  return (
-    
-    <Container>
-       
-      {!loading && message === 'Success' && <MessageOk />}
-      {loading && !message ? (<Loading/> ) : (
-          <Formik
-          validationSchema={schema}
-          onSubmit={(values, actions) =>{
-            handleSubmit(values);
-           
-          }}
-          initialValues={{
-            name: '',
-            email: '',
-            phone: '',
-            addressZip: '',
-            addressStreet: '',
-            addressNumber: '',
-            addressComplement: '',
-            addressDistrict:'',
-            addressCity: '',
-            addressState: ''
-          }}
-         >
-          
-           {({setFieldValue}) => (
-             
-            <ContainerForm>
-              {!loading && message === 'Error' && <MessageError />}
-              <div>
-                <Label htmlFor="name">Nome</Label>
-                <Input name="name" id="name"  type="text"/>
-               
-               <StyledErrorMessage component="span" name="name" />
-               </div>
-              
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <Input name="email" id="email" type="email" />
-               
-               <StyledErrorMessage component="span" name="email" />
-               </div>
-              <div>
-                <Label>Telefone</Label>
-                <Input
-                  name="phone"
-                  id="phone"
-                type="text" 
-                maxLength='11'
-                placeholder='(__)_____-____'
-                />
-              
-              <StyledErrorMessage component="span" name="phone" />
-              </div>
-               
-                <div>
-                <Label>CEP</Label>
-                <Input name="addressZip"
-                        id="addressZip"
-                        type="text"
-                        maxLength='8'
-                        placeholder='_____-___'
-                        onBlur={(ev) => onBlurCep(ev, setFieldValue)}
-                        /> 
-                 
-                <StyledErrorMessage component="span" name="addressZip" />
-                </div > 
-                <div>
-                <Label>Logradouro</Label>
-                <Input name="addressStreet"
-                      type="text" 
-                      style= {{Input}} />
-                
-                <StyledErrorMessage component="span" name="addressStreet" />
-                </div>
-                <div>
-                <Label>Número</Label>
-                <Input name="addressNumber"  type="number" />
-                
-                <StyledErrorMessage component="span" name="addressNumber" />
-                </div>
-                <div>
-                <Label>Complemento</Label>
-                <Input name="addressComplement"  type="text" />
-                
-                <StyledErrorMessage component="span" name="addressComplement" />
-                </div >
-                <div>
-                <Label>Bairro</Label>
-                <Input name="addressDistrict"  type="text" />
-               
-                <StyledErrorMessage component="span" name="addressDistrict" />
-                </div>
-                <div>
-                <Label>Cidade</Label>
-                <Input name="addressCity"  type="text" />
-                
-                <StyledErrorMessage component="span" name="addressCity" />
-                </div>
-                <div>
-                <Label>Estado</Label>
-                <Input name="addressState" type="text" />
-                
-                <StyledErrorMessage component="span" name="addressState" />
-                </div>
-                <div>  
-                  <Button> 
-                    <button type="submit">Enviar</button>
-                  </Button>
-                </div>
-                
-            
-            </ContainerForm>
-            
-            
-          )}
-           </Formik>
-       )}
-  
-       
-    </Container>
-
-  )
-       
 }
+
+	return (
+		<Container>
+      
+			{!loading && message === 'Success' && <MessageOk/>}
+			
+			{loading && <Loading/>}
+      {!loading && message !== 'Success' && (
+        
+        
+			<Formik
+				validationSchema={schema}
+				initialValues={{
+					name: '',
+					phone: '',
+					email: '',
+					addressZip: '',
+					addressStreet: '',
+          addressNumber: '',
+          addressComplement: '',
+          addressDistrict:'',
+          addressCity: '',
+          addressState: ''
+				}}
+				onSubmit={async (values) => {
+					sendForm(values);
+				}}
+			>
+
+			{({setFieldValue})=>(
+			
+        
+          <ContainerForm>
+          {message === 'Error' && <MessageError/>}
+					<Label htmlFor='name'>Nome</Label>
+          <div>
+					<StyledInput id='name' name='name'  />
+          <StyledErrorMessage component="span" name="name" />
+          </div>
+
+          <Label htmlFor='email'>Email</Label>
+          
+          <div>
+					<StyledInput id='email' name='email' type='email' />
+          <StyledErrorMessage component="span" name="email" />
+          </div>
+
+					<Label htmlFor='phone'>Telefone</Label>
+          <div>
+					<StyledInput id='phone' name='phone' ptype='phone' />
+          <StyledErrorMessage component="span" name="phone" />
+          </div>
+
+					<Label htmlFor='addressZip'>CEP</Label>
+          <div>
+					<StyledInput id='addressZip' 
+								name='addressZip' 
+								
+								onBlur={(ev) => onBlurCep(ev, setFieldValue)}
+								/>
+                <StyledErrorMessage component="span" name="addressZip" />
+            </div>
+
+					<Label htmlFor='addressStreet'>Logradouro</Label>
+          <div>
+					<StyledInput id='addressStreet'  name='addressStreet'/>
+          <StyledErrorMessage component="span" name="addressStreet" />
+					</div>
+
+					<Label htmlFor='addressNumber'>Numero</Label>
+          <div>
+					<StyledInput id='addressNumber' name='addressNumber'  />
+          <StyledErrorMessage component="span" name="addressNumber" />
+          </div>
+
+					<Label htmlFor='addressComplement'>Complemento</Label>
+          <div>
+					<StyledInput id='addressComplement' name='addressComplement'  />
+          <StyledErrorMessage component="span" name="addressComplement" />
+					</div>
+
+					<Label htmlFor='addressDistrict'>Bairro</Label>
+          <div>
+					<StyledInput id='addressDistrict'  name='addressDistrict'  />
+          <StyledErrorMessage component="span" name="addressDistrict" />
+					</div>
+
+					<Label htmlFor='addressCity'>Cidade</Label>
+          <div>
+					<StyledInput id='addressCity'  name='addressCity' />
+          <StyledErrorMessage component="span" name="addressCity" />
+          </div>
+
+					<Label htmlFor='addressState'>Estado</Label>
+          <div>
+					<StyledInput id='addressState'  name='addressState' />
+          <StyledErrorMessage component="span" name="addressState" />
+          </div>
+          
+          <div>
+          <StyledButton type='submit'>Enviar</StyledButton>
+        </div>
+        
+          
+        </ContainerForm>
+        )}
+        
+			</Formik>
+    
+      )}
+				
+
+		</Container>
+	)
+};
 
 export default StickerForm;

@@ -34,6 +34,7 @@ width: 100%;
 
 
  position: relative;
+ height:100px;
   
  & > p {
    font-size: 16px;
