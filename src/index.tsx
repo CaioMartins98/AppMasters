@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
+import Header from '../src/components/Header';
+import StickerForm from '../src/components/stickerForm';
+import Footer from '../src/components/Footer';
 import './reset.css';
 
 ReactDOM.render(
-  
-    <App/>,
-  document.getElementById('root')
+  <>
+    <Header />
+    <StickerForm />
+    <Footer />
+  </>,
+  document.getElementById('root'),
 );
-
